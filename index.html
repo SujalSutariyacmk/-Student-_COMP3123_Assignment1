@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Signup and Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h2, h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        #logout {
+            padding: 10px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #logout:hover {
+            background-color: #c9302c;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Signup Form -->
+    <div id="signup-section">
+        <h2>Signup</h2>
+        <form id="signup-form">
+            <input type="text" id="signup-username" placeholder="Username" required><br>
+            <input type="email" id="signup-email" placeholder="Email" required><br>
+            <input type="password" id="signup-password" placeholder="Password" required><br>
+            <button type="submit">Signup</button>
+        </form>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-section">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required><br>
+            <input type="password" id="login-password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Dashboard (hidden initially) -->
+    <div id="dashboard-section" class="hidden">
+        <h1>Welcome, <span id="username"></span>!</h1>
+        <button id="logout">Logout</button>
+    </div>
+
+    <div id="error-message"></div>
+
+    <script>
+        // Helper function to save user details in localStorage
+        function saveUserDetails(username, email, password) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            users.push({ username, email, password });
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        // Helper function to check if user exists in localStorage
+        function findUser(email, password) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            return users.find(user => user.email === email && user.password === password);
+        }
+
+        // Redirect to dashboard
+        function showDashboard(username) {
+            document.getElementById('signup-section').classList.add('hidden');
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('dashboard-section').classList.remove('hidden');
+            document.getElementById('username').innerText = username;
+        }
+
+        // Logout functionality
+        document.getElementById('logout').addEventListener('click', function() {
+            localStorage.removeItem('loggedInUser'); // Clear the logged-in user
+            location.reload(); // Reload the page to show login/signup
+        });
+
+        // Check if user is already logged in
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (loggedInUser) {
+            showDashboard(loggedInUser); // Show dashboard if already logged in
+        }
+
+        // Handle signup form submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            saveUserDetails(username, email, password);
+            localStorage.setItem('loggedInUser', username); // Automatically log the user in
+            showDashboard(username); // Redirect to dashboard
+        });
+
+        // Handle login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = findUser(email, password);
+            if (user) {
+                localStorage.setItem('loggedInUser', user.username); // Set logged-in user
+                showDashboard(user.username); // Redirect to dashboard
+            } else {
+                document.getElementById('error-message').innerText = 'Invalid email or password.';
+            }
+        });
+    </script>
+
+</body>
+</html>
