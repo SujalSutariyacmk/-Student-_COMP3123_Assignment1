@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/863f732b-011b-4a07-a4a3-032e42e883f5)# Student COMP3123 Assignment 1
+# Student COMP3123 Assignment 1
 
 This is a backend application built using Node.js, Express, and MongoDB. The application provides user authentication (signup and login) and basic CRUD operations for managing employee records.
 
@@ -28,9 +28,11 @@ This is a backend application built using Node.js, Express, and MongoDB. The app
 '''
 
 ![image](https://github.com/user-attachments/assets/9ffad24e-b486-484a-a125-3fcebcfe65cf)
+
 front end of the assignment project
 
 ![image](https://github.com/user-attachments/assets/32b8ee6d-0ca3-45a9-a78e-95e4fc1dac23)
+
 back end of the assignment project
 
 
