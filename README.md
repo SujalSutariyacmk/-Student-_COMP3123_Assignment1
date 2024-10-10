@@ -1,4 +1,4 @@
-# Student COMP3123 Assignment 1
+# 101410300_COMP3123_Assignment1
 
 This is a backend application built using Node.js, Express, and MongoDB. The application provides user authentication (signup and login) and basic CRUD operations for managing employee records.
 
